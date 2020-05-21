@@ -8,6 +8,13 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
+import request from "@/helpers/request.ts";
+window.request = request;
+import auth from "@/api/auth.ts";
+window.auth = auth;
+import blog from "@/api/blog.ts";
+window.blog = blog;
+
 @Component
 export default class Index extends Vue {
   click1() {
@@ -16,7 +23,7 @@ export default class Index extends Vue {
       callback: action => {
         this.$message({
           type: "info",
-          message: `action: ${action}`
+          message: `这是一条成功`
         });
       }
     });
