@@ -364,3 +364,9 @@ import util from '@/helpers/util'
 Vue.use(util)
 ```
 
+3. 其他任意地方
+
+```
+<p>{{friendlyDate(createdAt)}}<p>
+```
+

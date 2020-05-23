@@ -47,7 +47,6 @@ export default class Index extends Vue {
     blog.getIndexBlogs({ page: this.page }).then(res => {
       this.blogs = res.data;
       this.total = res.total;
-      this.page = res.page;
     });
   }
 
