@@ -1,6 +1,6 @@
 <template>
   <div id="edit">
-    <h1>创建文章</h1>
+    <h1>编辑</h1>
     <h3>文章标题</h3>
     <el-input v-model="title"></el-input>
     <p class="msg">限30个字</p>
@@ -8,13 +8,13 @@
     <el-input v-model="description" type="textarea" :autosize="{minRows:2,maxRows:6}"></el-input>
     <p class="msg">限30个字</p>
     <h3>文章内容</h3>
-    <el-input v-model="content" :autosize="{minRows:4,maxRows:30}"></el-input>
+    <el-input type="textarea" v-model="content" :autosize="{minRows:4,maxRows:30}"></el-input>
     <p class="msg">限30个字</p>
     <p>
       <label>是否展示到首页</label>
       <el-switch v-model="atIndex" active-color="#13cc66" inactive-color="#ff4949"></el-switch>
     </p>
-    <el-button @click="onCreate">确定</el-button>
+    <el-button @click="onEdit">确定</el-button>
   </div>
 </template>
 
@@ -30,15 +30,28 @@ export default class Edit extends Vue {
   description: string = "";
   content: string = "";
   atIndex: boolean = false;
+  blogId: number | null = null;
+  created() {
+    this.blogId = Number(this.$route.params.blogId);
+    blog.getDetail({ blogId: this.blogId }).then((res: any) => {
+      this.title = res.data.title;
+      this.description = res.data.description;
+      this.content = res.data.content;
+      this.atIndex = res.data.atIndex;
+    });
+  }
 
-  onCreate() {
+  onEdit() {
     blog
-      .createBlog({
-        title: this.title,
-        content: this.content,
-        description: this.description,
-        atIndex: this.atIndex
-      })
+      .updateBlog(
+        { blogId: this.blogId },
+        {
+          title: this.title,
+          content: this.content,
+          description: this.description,
+          atIndex: this.atIndex
+        }
+      )
       .then((res: any) => {
         this.$message.success(res.msg);
         this.$router.push({ path: `/detail/${res.data.id}` });
