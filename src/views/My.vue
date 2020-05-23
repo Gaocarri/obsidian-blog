@@ -1,54 +1,103 @@
 <template>
   <div id="my">
-    <section class="user-info">
-      <img src="123" alt class="avatar" />
-      <h3>gaocarri</h3>
-    </section>
-
-    <section>
-      <div class="item">
-        <div class="date">
-          <span class="day">20</span>
-          <span class="month">5月</span>
-          <span class="year">2018</span>
-        </div>
-        <h3>前端异步解密</h3>
-        <p>山东省十大大苏打撒旦看sdsdssdadds撒大苏打实打实大苏打实打实大苏打实打实到你萨克那s撒旦飒飒的飒飒大苏打实打实大苏打实打实是的撒大苏打实打实实打实水水水水水水水杀杀杀杀杀杀杀杀杀你打算打算看看九十多岁的可是垃圾丢三落四看到就开始大肆罗迪克</p>
-        <div class="actions">
-          <router-link to="/edit">编辑</router-link>
-          <a href="#">删除</a>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="date">
-          <span class="day">20</span>
-          <span class="month">5月</span>
-          <span class="year">2018</span>
-        </div>
-        <h3>前端异步解密</h3>
-        <p>山东省十大大苏打撒旦看到你萨克那你打算打算看看九十多岁的可是垃圾丢三落四看到就开始大肆罗迪克</p>
-        <div class="actions">
-          <router-link to="/edit">编辑</router-link>
-          <a href="#">删除</a>
-        </div>
-      </div>
-    </section>
+    <div id="user">
+      <section class="user-info">
+        <img
+          :src="this.$store.state.user.avatar"
+          :alt="this.$store.state.user.username"
+          class="avatar"
+        />
+        <h3>{{this.$store.state.user.username}}</h3>
+      </section>
+      <section>
+        <router-link class="item" v-for="blog in blogs" :key="blog.id" :to="`/detail/${blog.id}`">
+          <div class="date">
+            <span class="day">{{splitDate(blog.createdAt).date}}</span>
+            <span class="month">{{splitDate(blog.createdAt).month}}月</span>
+            <span class="year">{{splitDate(blog.createdAt).year}}</span>
+          </div>
+          <h3>{{blog.title}}</h3>
+          <p>{{blog.description}}</p>
+          <div class="actions">
+            <router-link :to="`/edit/${blog.id}`">编辑</router-link>
+            <a href="#" @click.prevent="onDelete(blog.id)">删除</a>
+          </div>
+        </router-link>
+      </section>
+      <section class="pagination">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="total"
+          :current-page="page"
+          @current-change="onPageChange"
+        ></el-pagination>
+      </section>
+    </div>
   </div>
 </template>
 
 <script lang='ts'>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+import blog from "@/api/blog";
 
 @Component
-export default class My extends Vue {}
+export default class My extends Vue {
+  blogs: any = [];
+  page: number = 1;
+  total: number = 0;
+  userId: any = 0;
+  created() {
+    this.page = Number(this.$route.query.page) || 1;
+    blog
+      .getBlogsByUserId(this.$store.state.user.id, { page: this.page })
+      .then((res: any) => {
+        console.log(res);
+        this.page = res.page;
+        this.total = res.total;
+        this.blogs = res.data;
+      });
+  }
+
+  splitDate(dataStr: any) {
+    let dateObj = typeof dataStr === "object" ? dataStr : new Date(dataStr);
+    return {
+      date: dateObj.getDate(),
+      month: dateObj.getMonth() + 1,
+      year: dateObj.getFullYear()
+    };
+  }
+
+  onPageChange(newPage: any) {
+    blog
+      .getBlogsByUserId(this.$store.state.user.id, { page: newPage })
+      .then((res: any) => {
+        console.log(res);
+        this.blogs = res.data;
+        this.total = res.total;
+        this.page = res.page;
+        this.$router.push({ path: "/my", query: { page: newPage } });
+      });
+  }
+
+  async onDelete(blogId: number) {
+    await this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning"
+    });
+    await blog.deleteBlog({ blogId });
+    this.$message.success("删除成功");
+    this.blogs = this.blogs.filter((blog: any) => blog.id != blogId);
+  }
+}
 </script>
 
 <style lang='scss' scoped>
 @import "~@/assets/style/base.scss";
 
-#my {
+#my,
+#user {
   .user-info {
     display: grid;
     grid: auto auto / 80px 1fr;
@@ -56,13 +105,15 @@ export default class My extends Vue {}
     margin-top: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #ebebeb;
+
     .avatar {
       grid-column: 1;
       grid-row: 1 / span 2;
       width: 60px;
-      height: 60x;
+      height: 60px;
       border-radius: 50%;
     }
+
     h3 {
       grid-column: 2;
       grid-row: 1;
@@ -109,7 +160,7 @@ export default class My extends Vue {}
 
       a {
         color: $themeLighterColor;
-        margin-right: 20px;
+        margin-right: 40px;
       }
     }
   }
