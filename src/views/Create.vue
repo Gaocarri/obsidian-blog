@@ -1,5 +1,5 @@
 <template>
-  <div id="edit">
+  <div id="create">
     <h1>创建文章</h1>
     <h3>文章标题</h3>
     <el-input v-model="title"></el-input>
@@ -14,7 +14,7 @@
       <label>是否展示到首页</label>
       <el-switch v-model="atIndex" active-color="#000" inactive-color="#ff4949"></el-switch>
     </p>
-    <el-button @click="onCreate">确定</el-button>
+    <el-button type="info" plain @click="onCreate">确定</el-button>
   </div>
 </template>
 
@@ -48,7 +48,10 @@ export default class Create extends Vue {
 </script>
 
 <style lang='scss' scoped>
-label {
-  margin-right: 10px;
+#create {
+  padding-bottom: 20px;
+  label {
+    margin-right: 10px;
+  }
 }
 </style>

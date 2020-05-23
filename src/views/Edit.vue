@@ -14,7 +14,7 @@
       <label>是否展示到首页</label>
       <el-switch v-model="atIndex" active-color="#000" inactive-color="#ff4949"></el-switch>
     </p>
-    <el-button @click="onEdit">确认修改</el-button>
+    <el-button type="info" plain @click="onEdit">确认修改</el-button>
   </div>
 </template>
 
@@ -61,7 +61,10 @@ export default class Edit extends Vue {
 </script>
 
 <style lang='scss' scoped>
-label {
-  margin-right: 10px;
+#edit {
+  padding-bottom: 20px;
+  label {
+    margin-right: 10px;
+  }
 }
 </style>

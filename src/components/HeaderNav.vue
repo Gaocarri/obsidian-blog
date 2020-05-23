@@ -7,10 +7,10 @@
       <p>精品博客共享</p>
       <div class="btns">
         <router-link to="/login">
-          <el-button>立即登录</el-button>
+          <el-button type="info" plain>立即登录</el-button>
         </router-link>
         <router-link to="/register">
-          <el-button>注册账号</el-button>
+          <el-button type="info" plain>注册账号</el-button>
         </router-link>
       </div>
     </template>
