@@ -12,9 +12,9 @@
     <p class="msg">限30个字</p>
     <p>
       <label>是否展示到首页</label>
-      <el-switch v-model="atIndex" active-color="#13cc66" inactive-color="#ff4949"></el-switch>
+      <el-switch v-model="atIndex" active-color="#000" inactive-color="#ff4949"></el-switch>
     </p>
-    <el-button @click="onEdit">确定</el-button>
+    <el-button @click="onEdit">确认修改</el-button>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default class Edit extends Vue {
   title: string = "";
   description: string = "";
   content: string = "";
-  atIndex: boolean = false;
+  atIndex: boolean = true;
   blogId: number | null = null;
   created() {
     this.blogId = Number(this.$route.params.blogId);
@@ -54,11 +54,14 @@ export default class Edit extends Vue {
       )
       .then((res: any) => {
         this.$message.success(res.msg);
-        this.$router.push({ path: `/detail/${res.data.id}` });
+        this.$router.push({ path: `/detail/${res.data.id - 3795}` });
       });
   }
 }
 </script>
 
 <style lang='scss' scoped>
+label {
+  margin-right: 10px;
+}
 </style>

@@ -52,7 +52,6 @@ export default class My extends Vue {
     blog
       .getBlogsByUserId(this.$store.state.user.id, { page: this.page })
       .then((res: any) => {
-        console.log(res);
         this.page = res.page;
         this.total = res.total;
         this.blogs = res.data;
@@ -72,7 +71,6 @@ export default class My extends Vue {
     blog
       .getBlogsByUserId(this.$store.state.user.id, { page: newPage })
       .then((res: any) => {
-        console.log(res);
         this.blogs = res.data;
         this.total = res.total;
         this.page = res.page;
@@ -96,8 +94,7 @@ export default class My extends Vue {
 <style lang='scss' scoped>
 @import "~@/assets/style/base.scss";
 
-#my,
-#user {
+#my {
   .user-info {
     display: grid;
     grid: auto auto / 80px 1fr;
@@ -160,7 +157,7 @@ export default class My extends Vue {
 
       a {
         color: $themeLighterColor;
-        margin-right: 40px;
+        margin-right: 20px;
       }
     }
   }

@@ -35,4 +35,45 @@ export default class Register extends Vue {
 </script>
 
 <style lang='scss' scoped>
+@import "~@/assets/style/base.scss";
+
+#login,
+#register {
+  display: grid;
+  justify-content: center;
+  padding-top: 30px;
+
+  h4 {
+    margin: 10px 0 5px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+
+  input {
+    width: 400px;
+  }
+
+  .error {
+    font-size: 12px;
+    color: #f00;
+  }
+
+  button {
+    margin-top: 30px;
+    justify-self: start;
+  }
+
+  .notice {
+    font-size: 12px;
+    color: $textLighterColor;
+    text-align: center;
+    margin-top: 30px;
+
+    a {
+      color: #000;
+    }
+  }
+}
 </style>

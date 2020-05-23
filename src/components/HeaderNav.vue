@@ -1,10 +1,10 @@
 <template>
-  <header :class="{'login':isLogin,'no-login':!isLogin}">
+  <header :class="{login: isLogin, 'no-login': !isLogin}">
     <template v-if="!isLogin">
       <h1>
-        <router-link to="/">Let's Share</router-link>
+        <router-link to="/">Obsidian Blog</router-link>
       </h1>
-      <p>精品博客汇聚</p>
+      <p>精品博客共享</p>
       <div class="btns">
         <router-link to="/login">
           <el-button>立即登录</el-button>
@@ -14,9 +14,9 @@
         </router-link>
       </div>
     </template>
-    <template v-else>
+    <template v-if="isLogin">
       <h1>
-        <router-link to="/">Let's Share</router-link>
+        <router-link to="/">Obsidian Blog</router-link>
       </h1>
       <router-link to="/create">
         <i class="edit el-icon-plus"></i>
@@ -69,11 +69,13 @@ header.no-login {
   background: $bgColor;
   display: grid;
   justify-items: center;
+
   h1 {
-    color: #fff;
     font-size: 40px;
     margin: 60px 0 0 0;
-    text-transform: uppercase;
+    a {
+      color: #fff;
+    }
   }
 
   p {
@@ -93,20 +95,24 @@ header.no-login {
 header.login {
   display: flex;
   align-items: center;
-  background-color: $bgColor;
-  padding: 20px 0;
+  background: $bgColor;
+
   h1 {
     margin: 0;
     padding: 0;
-    color: #fff;
     font-size: 40px;
-    text-transform: uppercase;
     flex: 1;
+
+    a {
+      color: #fff;
+    }
   }
+
   .edit {
     color: #fff;
     font-size: 30px;
   }
+
   .avatar {
     width: 40px;
     height: 40px;
@@ -136,7 +142,7 @@ header.login {
         padding: 5px 10px;
 
         &:hover {
-          bottom: #eaeaea;
+          background-color: #eaeaea;
         }
       }
     }

@@ -4,11 +4,10 @@
       <img :src="user.avatar" :alt="user.username" :title="user.username" class="avatar" />
       <h3>{{title}}</h3>
       <p>
-        <router-link :to="`/user/${user.id}`">{{user.username}}</router-link>
+        <router-link :to="`/user/${user.id-2015}`">{{user.username}}</router-link>
         发布于{{friendlyDate(createdAt)}}
       </p>
     </section>
-
     <section class="article" v-html="markdown"></section>
   </div>
 </template>
@@ -83,13 +82,12 @@ export default class Detail extends Vue {
 
       a {
         color: $themeLighterColor;
+        text-decoration: none;
       }
     }
   }
-
   .article {
     padding: 30px 0;
-    line-height: 50px;
   }
 }
 </style>

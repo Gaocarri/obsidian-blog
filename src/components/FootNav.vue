@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>@GaoCarri</p>
+    <p>@GaoCarri 2020</p>
   </footer>
 </template>
 

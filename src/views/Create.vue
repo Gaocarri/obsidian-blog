@@ -12,7 +12,7 @@
     <p class="msg">限30个字</p>
     <p>
       <label>是否展示到首页</label>
-      <el-switch v-model="atIndex" active-color="#13cc66" inactive-color="#ff4949"></el-switch>
+      <el-switch v-model="atIndex" active-color="#000" inactive-color="#ff4949"></el-switch>
     </p>
     <el-button @click="onCreate">确定</el-button>
   </div>
@@ -29,7 +29,7 @@ export default class Create extends Vue {
   title: string = "";
   description: string = "";
   content: string = "";
-  atIndex: boolean = false;
+  atIndex: boolean = true;
 
   onCreate() {
     blog
@@ -41,11 +41,14 @@ export default class Create extends Vue {
       })
       .then((res: any) => {
         this.$message.success(res.msg);
-        this.$router.push({ path: `/detail/${res.data.id}` });
+        this.$router.push({ path: `/detail/${res.data.id - 3795}` });
       });
   }
 }
 </script>
 
 <style lang='scss' scoped>
+label {
+  margin-right: 10px;
+}
 </style>
