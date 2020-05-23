@@ -34,7 +34,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import auth from "@/api/auth";
-window.auth = auth;
 
 @Component
 export default class HeaderNav extends Vue {

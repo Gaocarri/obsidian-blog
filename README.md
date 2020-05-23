@@ -234,3 +234,90 @@ export default {
 }
 ```
 
+# Vuex
+
+1. vuex的异步方法
+
+```typescript
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    // auth
+    user: null,
+    isLogin: false,
+  },
+  mutations: {
+    // auth
+    setUser(state, payload) {
+      state.user = payload.user
+    },
+
+    setLogin(state, payload) {
+      state.isLogin = payload.isLogin
+    }
+  },
+  actions: {
+    // auth
+    login({ commit }, { username, password }) {
+      return auth.login({ username, password }).then((res: any) => {
+        commit('setUser', { user: res.data })
+        commit('setLogin', { isLogin: true })
+      })
+    },
+    async register({ commit }, { username, password }) {
+      let res: any = await auth.register({ username, password })
+      commit('setUser', { user: res.data })
+      commit('setLogin', { isLogin: true })
+      return res.data
+    },
+    async logout({ commit }) {
+      await auth.logout()
+      commit('setUser', { user: null })
+      commit('setLogin', { isLogin: false })
+    },
+    async checkLogin({ commit, state }) {
+      if (state.isLogin) return true
+      let res: any = await auth.getInfo()
+      commit('setLogin', { isLogin: res.isLogin })
+      if (!res.isLogin) return false
+      commit('setUser', { user: res.data })
+      return true
+    }
+  }
+})
+```
+
+2. 登录注册时直接调用相应方法即可
+
+# 进入路由前判断是否已登录
+
+1. 使用路由原信息，参考官网
+
+```
+  {
+    path: '/my',
+    component: My,
+    meta: { requiresAuth: true }
+  },
+```
+
+```
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record: any) => record.meta.requiresAuth)) {
+    store.dispatch('checkLogin').then(isLogin => {// 不能用store.state.login，因为此时headerNav是异步执行的，还没有给store设置
+      if (!isLogin) {// 如果没有登录
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    })
+  } else {
+    next() // 确保调用了next()
+  }
+})
+```
+

@@ -22,13 +22,14 @@ export default class Login extends Vue {
   password: string = "";
 
   onLogin() {
+    const path: any = { path: this.$route.query.redirect || "/" };
     this.$store
       .dispatch("login", {
         username: this.username,
         password: this.password
       })
       .then(() => {
-        this.$router.push("/");
+        this.$router.push(path);
       });
   }
 }

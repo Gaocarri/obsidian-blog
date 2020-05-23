@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import auth from '@/api/auth'
+import store from '../store'
 
 // import Index from "../views/Index.vue"
 // import Login from '../views/Login.vue'
@@ -26,15 +28,17 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/create',
-    component: Create
+    component: Create,
+    meta: { requiresAuth: true }
   },
   {
-    path: '/detail',
+    path: '/detail/:blogId',
     component: Detail
   },
   {
-    path: '/edit',
-    component: Edit
+    path: '/edit/:blogId',
+    component: Edit,
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -42,20 +46,38 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/my',
-    component: My
+    component: My,
+    meta: { requiresAuth: true }
   },
   {
     path: '/register',
     component: Register
   },
   {
-    path: '/user',
+    path: '/user/:userId',
     component: User
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record: any) => record.meta.requiresAuth)) {
+    store.dispatch('checkLogin').then(isLogin => {
+      if (!isLogin) {// 如果没有登录
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    })
+  } else {
+    next() // 确保调用了next()
+  }
 })
 
 export default router

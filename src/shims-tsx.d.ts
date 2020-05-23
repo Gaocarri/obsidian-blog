@@ -12,10 +12,3 @@ declare global {
   }
 }
 
-declare global {
-  interface Window {
-    request: any
-    auth: any
-    blog: any
-  }
-}
