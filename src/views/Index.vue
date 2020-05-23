@@ -1,29 +1,31 @@
 <template>
   <div id="index">
     <section class="blog-posts">
-      <div class="item">
+      <router-link
+        class="item"
+        v-for="(blog,index) in blogs"
+        :key="index"
+        :to="`/detail/${blog.id}`"
+      >
         <figure class="avatar">
-          <img src="http://cn.gravatar.com/avatar" alt />
-          <figcaption>Gaocarri</figcaption>
+          <img :src="blog.user.avatar" :alt="blog.user.username" />
+          <figcaption>{{blog.user.username}}</figcaption>
         </figure>
         <h3>
-          前端异步大揭秘
-          <span>3天前</span>
+          {{blog.title}}
+          <span>{{friendlyDate(blog.createdAt)}}</span>
         </h3>
-        <p>十大打撒撒旦撒还是打算结婚的喀什的空间dsahddshsdhjahdkasdhdskh飒飒大苏打撒旦大苏打大撒大苏打倒萨倒萨的撒大苏打萨达第三代撒谎第卅打...</p>
-      </div>
+        <p>{{blog.description}}</p>
+      </router-link>
+    </section>
 
-      <div class="item">
-        <figure class="avatar">
-          <img src="http://cn.gravatar.com/avatar/1?s=128&d=identicon" alt />
-          <figcaption>carrigao</figcaption>
-        </figure>
-        <h3>
-          前端css大揭秘
-          <span>3天前</span>
-        </h3>
-        <p>是的撒到啊撒旦吉萨大开大时代精神的卡了大飒飒的都是撒大大飒飒的开打开打目的是撒旦飒飒的...</p>
-      </div>
+    <section class="pagination">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="total"
+        :current-page="page"
+        @current-change="onPageChange"
+      ></el-pagination>
     </section>
   </div>
 </template>
@@ -32,12 +34,43 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-import request from "@/helpers/request.ts";
-import auth from "@/api/auth.ts";
 import blog from "@/api/blog.ts";
+import dayjs from "dayjs";
 
 @Component
-export default class Index extends Vue {}
+export default class Index extends Vue {
+  blogs: [] = [];
+  total: number = 0;
+  page: number = 1;
+  created() {
+    this.page = Number(this.$route.query.page) || 1;
+    blog.getIndexBlogs({ page: this.page }).then(res => {
+      this.blogs = res.data;
+      this.total = res.total;
+      this.page = res.page;
+    });
+  }
+
+  getTime(createdAt: any) {
+    return (
+      dayjs(createdAt).year() +
+      "-" +
+      (dayjs(createdAt).month() + 1) +
+      "-" +
+      dayjs(createdAt).date()
+    );
+  }
+
+  onPageChange(newPage: number) {
+    blog.getIndexBlogs({ page: newPage }).then(res => {
+      this.blogs = res.data;
+      this.total = res.total;
+      this.page = res.page;
+      const params: any = { page: newPage };
+      this.$router.push({ path: "/", query: params });
+    });
+  }
+}
 </script>
 
 <style lang='scss' scoped>
@@ -47,7 +80,7 @@ export default class Index extends Vue {}
   .item {
     display: grid;
     grid: auto auto / 80px 1fr;
-    margin: 20px 0;
+    margin: 40px 0;
 
     .avatar {
       grid-column: 1 / 2;
@@ -81,6 +114,12 @@ export default class Index extends Vue {}
     grid-column: 2;
     grid-row: 2;
     margin-top: 0;
+  }
+
+  .pagination {
+    display: grid;
+    justify-items: center;
+    margin-bottom: 30px;
   }
 }
 </style>

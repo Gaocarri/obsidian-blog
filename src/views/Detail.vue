@@ -1,13 +1,47 @@
 <template>
-  <div id="detail">还没有写</div>
+  <div id="detail">
+    <section class="user-info">
+      <img :src="user.avatar" :alt="user.username" :title="user.username" class="avatar" />
+      <h3>{{title}}</h3>
+      <p>
+        <router-link :to="`/user/${user.id}`">{{user.username}}</router-link>
+        发布于{{friendlyDate(createdAt)}}
+      </p>
+    </section>
+
+    <section class="article" v-html="markdown"></section>
+  </div>
 </template>
 
 <script lang='ts'>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+import marked from "marked";
+
+import blog from "@/api/blog";
 
 @Component
-export default class Detail extends Vue {}
+export default class Detail extends Vue {
+  title: string = "";
+  rawContent: string = "";
+  user: any = {};
+  createdAt: string = "";
+  blogId: number = 0;
+
+  created() {
+    this.blogId = Number(this.$route.params.blogId);
+    blog.getDetail({ blogId: this.blogId }).then((res: any) => {
+      this.title = res.data.title;
+      this.rawContent = res.data.content;
+      this.createdAt = res.data.createdAt;
+      this.user = res.data.user;
+    });
+  }
+
+  get markdown() {
+    return marked(this.rawContent);
+  }
+}
 </script>
 
 <style lang='scss' scoped>
@@ -48,13 +82,14 @@ export default class Detail extends Vue {}
       color: $textLighterColor;
 
       a {
-        color: $themeColor;
+        color: $themeLighterColor;
       }
     }
   }
 
   .article {
     padding: 30px 0;
+    line-height: 50px;
   }
 }
 </style>

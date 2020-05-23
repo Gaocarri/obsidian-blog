@@ -13,7 +13,8 @@ export default {
   getBlogs({ page = 1, userId, atIndex }: any = { page: 1 }) {
     // 修改了
     return request(URL.GET_LIST, 'GET', { page, userId, atIndex }).then((res: any) => {
-      res.totalPage = res.totalPage - 218
+      res.total = res.total - 850
+      res.totalPage = res.totalPage - 85
       return res
     })
   },

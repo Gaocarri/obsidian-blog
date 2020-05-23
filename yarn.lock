@@ -883,6 +883,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/marked@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.npm.taobao.org/@types/marked/download/@types/marked-0.7.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fmarked%2Fdownload%2F%40types%2Fmarked-0.7.4.tgz#607685669bb1bbde2300bc58ba43486cbbee1f0a"
+  integrity sha1-YHaFZpuxu94jALxYukNIbLvuHwo=
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.npm.taobao.org/@types/minimatch/download/@types/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -4489,6 +4494,11 @@ js-message@1.0.5:
   resolved "https://registry.npm.taobao.org/js-message/download/js-message-1.0.5.tgz#2300d24b1af08e89dd095bc1a4c9c9cfcb892d15"
   integrity sha1-IwDSSxrwjondCVvBpMnJz8uJLRU=
 
+js-message@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npm.taobao.org/js-message/download/js-message-1.0.6.tgz#53919de571ae74a34edcac9498cfc568b2369c89"
+  integrity sha1-U5Gd5XGudKNO3KyUmM/FaLI2nIk=
+
 js-queue@2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/js-queue/download/js-queue-2.0.0.tgz#362213cf860f468f0125fc6c96abc1742531f948"
@@ -4798,6 +4808,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+marked@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/marked/download/marked-1.1.0.tgz#62504ad4d11550c942935ccc5e39d64e5a4c4e50"
+  integrity sha1-YlBK1NEVUMlCk1zMXjnWTlpMTlA=
 
 md5.js@^1.3.4:
   version "1.3.5"

@@ -7,10 +7,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@types/marked": "^0.7.4",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "dayjs": "^1.8.27",
     "element-ui": "^2.13.2",
+    "js-message": "^1.0.6",
+    "marked": "^1.1.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
