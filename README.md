@@ -12,4 +12,4 @@
 * 博客创建、编辑、修改、删除、设置到首页。
 
 # 前往黑曜石多人共享博客
-[黑曜石多人共享博客]http://gaocarri.gitee.io/obsidian-blog/#/index
+[黑曜石多人共享博客](http://gaocarri.gitee.io/obsidian-blog/#/index)
